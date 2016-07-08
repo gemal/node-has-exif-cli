@@ -1,0 +1,38 @@
+{
+  "name": "has-exif-cli",
+  "version": "0.0.1",
+  "description": "Checks if an image file has exif data",
+  "description": "Node command line interface to check if an image file has EXIF data. Can be used in CI automation",
+  "main": "index.js",
+  "scripts": {
+    "start": "./bin/has-exif-cli",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "exif": "./bin/has-exif-cli"
+  },
+  "preferGlobal": true,
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gemal/node-has-exif-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/gemal/node-has-exif-cli/issues"
+  },
+  "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "exif": "^0.4.0"
+  },
+  "keywords": [
+    "exif",
+    "cli",
+    "check",
+    "automate"
+  ]
+}
