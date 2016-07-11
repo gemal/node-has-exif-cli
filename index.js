@@ -17,11 +17,10 @@ console.info('Number of files to check: ' + files.length);
 
 var hasexif = false;
 
-for (var cnt = 0, len = files.length; cnt < len; cnt++) {
-  var filePath = files[cnt];
-  console.log("Checking:" + filePath);
+files.forEach(function(filePath) {
   try {
     new ExifImage({ image : filePath }, function (error, exifData) {
+      console.log("Checking:" + filePath);
       if (error) {
         return console.log(`Error: ${error.message}`);
       }
@@ -38,7 +37,7 @@ for (var cnt = 0, len = files.length; cnt < len; cnt++) {
   } catch (error) {
     console.log(`Error: ${error.message}`);
   }
-}
+});
 
 process.on('exit', function() {
   if (hasexif) {
