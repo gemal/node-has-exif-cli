@@ -41,5 +41,7 @@ for (var cnt = 0, len = files.length; cnt < len; cnt++) {
 }
 
 process.on('exit', function() {
-  process.exit(1);
+  if (hasexif) {
+    process.exit(1);
+  }
 });

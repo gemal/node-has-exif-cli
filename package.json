@@ -1,6 +1,6 @@
 {
   "name": "has-exif-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Checks if an image file has exif data",
   "description": "Node command line interface to check if an image file has EXIF data. Can be used in CI automation",
   "main": "index.js",
