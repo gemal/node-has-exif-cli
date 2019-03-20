@@ -27,5 +27,4 @@ describe('index.js', function() {
             out += data;
         });
     });
-
 });
