@@ -35,7 +35,6 @@ jobs:
       # correct line endings
       - run: sudo npm --global install lintspaces-cli
       - run: find ./*.js ./*.json ./*.md test/*.js | xargs lintspaces --endofline 'lf' --newline --trailingspaces --verbose
-      - run: find test/ -name '*.css' | xargs lintspaces --endofline 'lf' --newline --trailingspaces --verbose
 
       # lint
       - run: sudo npm --global install eslint eslint-config-google
