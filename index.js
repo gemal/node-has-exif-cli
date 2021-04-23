@@ -4,7 +4,7 @@
 
 const ExifImage = require('exif').ExifImage;
 
-const program = require('commander');
+const {program} = require('commander');
 
 program
     .version(require('./package.json').version)
