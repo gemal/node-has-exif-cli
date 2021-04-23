@@ -1,0 +1,50 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # Use node image
+      - image: circleci/node
+
+    # code folder
+    working_directory: ~/repo
+
+    steps:
+      # check out code
+      - checkout
+
+      # restore cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      # install and cache packages
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # audit the packages
+      - run: npm audit
+      - run: npm ls
+
+      # security test
+      - run: ./node_modules/.bin/snyk test
+
+      # correct line endings
+      - run: find ./ -path ./node_modules -prune -o -name '*.css' -o -name '*.json' -o -name '*.md' -o -name '*.js' -o -name '*.yml' | xargs ./node_modules/.bin/lintspaces --endofline 'lf' --newline --trailingspaces --verbose
+
+      # lint
+      - run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+
+      # check the package lock file
+      - run: ./node_modules/.bin/check-package-lock
+
+      # run tests
+      - run: ./node_modules/.bin/nyc npm test
+
+      # upload code coverage
+      - run: ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
+      - run: ./node_modules/.bin/codecov

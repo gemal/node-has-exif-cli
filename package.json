@@ -1,33 +1,46 @@
 {
-  "name": "has-exif-cli",
-  "version": "0.0.11",
-  "description": "Checks if an image file has exif data",
-  "description": "Node command line interface to check if an image file has EXIF data. Can be used in CI automation",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "has-exif-cli": "./index.js"
-  },
-  "preferGlobal": true,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/gemal/node-has-exif-cli"
-  },
-  "bugs": {
-    "url": "https://github.com/gemal/node-has-exif-cli/issues"
-  },
-  "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
-  "license": "MIT",
-  "dependencies": {
-    "commander": "^2.9.0",
-    "exif": "^0.4.0"
-  },
-  "keywords": [
-    "exif",
-    "cli",
-    "check",
-    "automate"
-  ]
+    "name": "has-exif-cli",
+    "version": "0.0.11",
+    "description": "Checks if an image file has EXIF data. Available as CLI. Can be used in CI automation",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/gemal/node-has-exif-cli"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
+    "license": "MIT",
+    "bin": {
+        "has-exif-cli": "index.js"
+    },
+    "bugs": {
+        "url": "https://github.com/gemal/node-has-exif-cli/issues"
+    },
+    "keywords": [
+        "exif",
+        "cli",
+        "check",
+        "automate",
+        "image",
+        "ci"
+    ],
+    "homepage": "https://github.com/gemal/node-has-exif-cli",
+    "dependencies": {
+        "commander": "^2.9.0",
+        "exif": "^0.4.0"
+    },
+    "devDependencies": {
+        "chai": "^4.3.4",
+        "check-package-lock": "^1.2.0",
+        "codecov": "^3.8.1",
+        "eslint": "^7.24.0",
+        "eslint-config-google": "^0.14.0",
+        "expect": "^26.6.2",
+        "lintspaces-cli": "^0.7.1",
+        "mocha": "^8.3.2",
+        "nyc": "^15.1.0",
+        "snyk": "^1.563.0"
+    }
 }
