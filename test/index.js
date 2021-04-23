@@ -40,7 +40,7 @@ describe('index.js', function() {
 
     it('should exit 1 wrong extension', function(done) {
         let out = '';
-        spawn('node', [path.join(__dirname, '../index.js'), 'test/wrongext.png'], {
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/wrong.png'], {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.equal(code, 0);
