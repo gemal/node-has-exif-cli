@@ -17,7 +17,7 @@ describe('index.js', function() {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.equal(code, 0);
-            expect(out.split("\n")).to.have.length(3);
+            expect(out.split('\n')).to.have.length(3);
             expect(out).to.match(/Number of files to check: 1/);
             expect(out).to.match(/Checking: test\/none\.jpg/);
             done();
@@ -45,7 +45,7 @@ describe('index.js', function() {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.equal(code, 0);
-            expect(out.split("\n")).to.have.length(4);
+            expect(out.split('\n')).to.have.length(4);
             expect(out).to.match(/The given image is not a JPEG/);
             done();
         }).stdout.on('data', function(data) {
@@ -59,7 +59,7 @@ describe('index.js', function() {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.equal(code, 0);
-            expect(out.split("\n")).to.have.length(4);
+            expect(out.split('\n')).to.have.length(4);
             expect(out).to.match(/ENOENT: no such file or directory/);
             done();
         }).stdout.on('data', function(data) {
