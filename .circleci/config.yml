@@ -26,7 +26,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # audit the pacakges
+      # audit the packages
       - run: npm audit
       - run: npm ls
 
@@ -38,6 +38,9 @@ jobs:
 
       # lint
       - run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+
+      # check the package lock file
+      - run: ./node_modules/.bin/check-package-lock
 
       # run tests
       - run: ./node_modules/.bin/nyc npm test
