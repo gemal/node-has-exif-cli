@@ -19,7 +19,7 @@ let hasexif = false;
 
 files.forEach(function(filePath) {
     try {
-        new ExifImage({image: filePath}, function (error, exifData) {
+        new ExifImage({image: filePath}, function(error, exifData) {
             console.log('Checking: ' + filePath);
             if (error) {
                 return console.log(`Error: ${error.message}`);
