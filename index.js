@@ -22,7 +22,9 @@ files.forEach(function(filePath) {
         new ExifImage({image: filePath}, function(error, exifData) {
             console.log('Checking: ' + filePath);
             if (error) {
-                return console.log(`Error: ${error.message}`);
+                if (error.code !== 'NO_EXIF_SEGMENT') { 
+                    return console.log(`Error: ${error.message}`);
+                }
             }
             for (const key in exifData) {
                 if (Object.prototype.hasOwnProperty.call(exifData, key)) {
