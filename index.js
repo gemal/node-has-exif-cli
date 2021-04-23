@@ -25,7 +25,7 @@ files.forEach(function(filePath) {
                 return console.log(`Error: ${error.message}`);
             }
             for (const key in exifData) {
-                if (exifData.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(exifData, key)) {
                     if (Object.keys(exifData[key]).length != 0) {
                         console.log(exifData);
                         hasexif = true;
