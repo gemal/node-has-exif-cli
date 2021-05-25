@@ -37,7 +37,7 @@
         "codecov": "^3.8.2",
         "eslint": "^7.26.0",
         "eslint-config-google": "^0.14.0",
-        "expect": "^26.6.2",
+        "expect": "^27.0.0",
         "lintspaces-cli": "^0.7.1",
         "mocha": "^8.4.0",
         "nyc": "^15.1.0",
