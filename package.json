@@ -39,7 +39,7 @@
         "eslint-config-google": "^0.14.0",
         "expect": "^27.0.1",
         "lintspaces-cli": "^0.7.1",
-        "mocha": "^8.4.0",
+        "mocha": "^9.0.0",
         "nyc": "^15.1.0",
         "snyk": "^1.607.0"
     }
