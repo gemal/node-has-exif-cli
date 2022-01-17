@@ -35,7 +35,7 @@
         "chai": "^4.3.4",
         "check-package-lock": "^1.5.0",
         "codecov": "^3.8.2",
-        "eslint": "^7.27.0",
+        "eslint": "^8.7.0",
         "eslint-config-google": "^0.14.0",
         "expect": "^27.0.1",
         "lintspaces-cli": "^0.7.1",
