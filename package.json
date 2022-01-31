@@ -28,7 +28,7 @@
     ],
     "homepage": "https://github.com/gemal/node-has-exif-cli",
     "dependencies": {
-        "commander": "^7.2.0",
+        "commander": "^9.0.0",
         "exif": "^0.6.0"
     },
     "devDependencies": {
