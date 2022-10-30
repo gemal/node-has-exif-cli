@@ -2,7 +2,8 @@
 
 'use strict';
 
-const ExifImage = require('exif').ExifImage;
+const ExifReader = require('exifreader');
+const exifErrors = ExifReader.errors;
 
 const {program} = require('commander');
 
@@ -16,33 +17,27 @@ const files = program.args;
 console.info('Number of files to check: ' + files.length);
 
 let hasexif = false;
+let haserror = false;
 
 files.forEach(function(filePath) {
-    try {
-        new ExifImage({image: filePath}, function(error, exifData) {
-            console.log('Checking: ' + filePath);
-            if (error) {
-                if (error.code !== 'NO_EXIF_SEGMENT') {
-                    return console.log(`Error: ${error.message}`);
-                }
-            }
-            for (const key in exifData) {
-                if (Object.prototype.hasOwnProperty.call(exifData, key)) {
-                    if (Object.keys(exifData[key]).length != 0) {
-                        console.log(exifData);
-                        hasexif = true;
-                        break;
-                    }
-                }
-            }
-        });
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-    }
+    ExifReader.load(filePath, {expanded: true}).then(function(tags) {
+        console.log('Checking: ' + filePath);
+        if (tags.exif) {
+            console.log('ERROR: Exif data found: ' + filePath);
+            hasexif = true;
+        }
+    }).catch(function(error) {
+        if (error instanceof exifErrors.MetadataMissingError) {
+            console.log('ERROR: No exif data found: ' + filePath);
+        } else {
+            console.log('ERROR: ' + error);
+        }
+        haserror = true;
+    });
 });
 
 process.on('exit', function() {
-    if (hasexif) {
+    if (hasexif || haserror) {
         process.exit(1);
     }
 });

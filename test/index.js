@@ -28,11 +28,24 @@ describe('index.js', function() {
 
     it('should exit 1 has exif', function(done) {
         let out = '';
-        spawn('node', [path.join(__dirname, '../index.js'), 'test/maker.jpg'], {
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/exif.jpg'], {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.strictEqual(code, 1);
-            expect(out).to.match(/Canon EOS 40D/);
+            expect(out).to.match(/ERROR: Exif data found: test\/exif\.jpg/);
+            done();
+        }).stdout.on('data', function(data) {
+            out += data;
+        });
+    });
+
+    it('should exit 1 has error', function(done) {
+        let out = '';
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/error.heic'], {
+            cwd: path.join(__dirname, '../'),
+        }).on('exit', function(code) {
+            assert.strictEqual(code, 1);
+            expect(out).to.match(/ERROR: No exif data found: test\/error\.heic/);
             done();
         }).stdout.on('data', function(data) {
             out += data;
@@ -41,25 +54,23 @@ describe('index.js', function() {
 
     it('should exit 1 wrong extension', function(done) {
         let out = '';
-        spawn('node', [path.join(__dirname, '../index.js'), 'test/wrong.png'], {
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/wrong.svg'], {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
-            assert.strictEqual(code, 0);
-            expect(out.split('\n')).to.have.length(4);
-            expect(out).to.match(/The given image is not a JPEG/);
+            assert.strictEqual(code, 1);
+            expect(out).to.match(/Invalid image format/);
             done();
         }).stdout.on('data', function(data) {
             out += data;
         });
     });
 
-    it('should exit 0 wrong file', function(done) {
+    it('should exit 1 wrong file', function(done) {
         let out = '';
         spawn('node', [path.join(__dirname, '../index.js'), 'test/404.jpg'], {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
-            assert.strictEqual(code, 0);
-            expect(out.split('\n')).to.have.length(4);
+            assert.strictEqual(code, 1);
             expect(out).to.match(/ENOENT: no such file or directory/);
             done();
         }).stdout.on('data', function(data) {
@@ -69,12 +80,25 @@ describe('index.js', function() {
 
     it('should exit 1 multi has exif', function(done) {
         let out = '';
-        spawn('node', [path.join(__dirname, '../index.js'), 'test/none.jpg', 'test/maker.jpg'], {
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/none.jpg', 'test/exif.jpg', 'test/none.png'], {
             cwd: path.join(__dirname, '../'),
         }).on('exit', function(code) {
             assert.strictEqual(code, 1);
+            expect(out).to.match(/Number of files to check: 3/);
+            expect(out).to.match(/ERROR: Exif data found: test\/exif\.jpg/);
+            done();
+        }).stdout.on('data', function(data) {
+            out += data;
+        });
+    });
+
+    it('should exit 0 multi no exif', function(done) {
+        let out = '';
+        spawn('node', [path.join(__dirname, '../index.js'), 'test/none.jpg', 'test/none.png'], {
+            cwd: path.join(__dirname, '../'),
+        }).on('exit', function(code) {
+            assert.strictEqual(code, 0);
             expect(out).to.match(/Number of files to check: 2/);
-            expect(out).to.match(/Canon EOS 40D/);
             done();
         }).stdout.on('data', function(data) {
             out += data;
