@@ -20,19 +20,17 @@ let hasexif = false;
 let haserror = false;
 
 files.forEach(function(filePath) {
+    console.log('Checking: ' + filePath);
     ExifReader.load(filePath, {expanded: true}).then(function(tags) {
-        console.log('Checking: ' + filePath);
-        if (tags.exif) {
-            console.log('ERROR: Exif data found: ' + filePath);
+        if (tags.exif && Object.keys(tags.exif).length !== 0) {
+            console.log('ERROR: Exif data found for: ' + filePath);
             hasexif = true;
         }
     }).catch(function(error) {
-        if (error instanceof exifErrors.MetadataMissingError) {
-            console.log('ERROR: No exif data found: ' + filePath);
-        } else {
-            console.log('ERROR: ' + error);
+        if (error instanceof exifErrors.MetadataMissingError === false) {
+            console.log('ERROR: ' + error + ' for:' + filePath);
+            haserror = true;
         }
-        haserror = true;
     });
 });
 
