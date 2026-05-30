@@ -31,10 +31,8 @@ jobs:
           command: npx snyk test
 
       - run:
-          name: Check line endings
-          command: |
-            find ./ -path ./node_modules -prune -o \( -name '*.css' -o -name '*.json' -o -name '*.md' -o -name '*.js' -o -name '*.yml' \) -print \
-              | xargs npx lintspaces --endofline lf --newline --trailingspaces --verbose
+          name: Check EditorConfig
+          command: npx editorconfig-checker
 
       - run:
           name: Lint
