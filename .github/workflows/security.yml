@@ -29,13 +29,7 @@ jobs:
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
         with:
-          sarif: true
-
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@5378192d256ef1302a6980fffe5ca04426d43091 # v3.28.21
-        with:
-          sarif_file: zizmor.sarif.json
-          category: zizmor
+          advanced-security: true
 
   cve-lite-cli:
     name: cve-lite-cli
