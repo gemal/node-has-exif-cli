@@ -48,7 +48,7 @@ jobs:
           persist-credentials: false
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@9b53c8ffb7abc49c7a0972531598bd60dc12cb1c # v1.14.0
+        uses: OWASP/cve-lite-cli@789c728631fa95cec24325a1b3d8c1101050e466 # v1.14.0
         with:
           fail-on: high
 
