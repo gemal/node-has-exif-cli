@@ -2,7 +2,6 @@ name: CI
 
 on:
   push:
-    branches: ['**']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -57,14 +56,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Audit packages
-        run: npm audit
-
-      - name: List packages
-        run: npm ls
-
-      - name: Security test (Snyk)
-        run: ./node_modules/.bin/snyk test
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
+        # https://github.com/snyk/actions/releases
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
