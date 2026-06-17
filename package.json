@@ -36,7 +36,6 @@
         "@eslint/js": "^10.0.1",
         "chai": "^6.2.2",
         "check-package-lock": "^1.5.0",
-        "codecov": "^3.8.2",
         "eslint": "^10.5.0",
         "eslint-config-google": "^0.14.0",
         "expect": "^30.4.1",
