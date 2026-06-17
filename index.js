@@ -5,7 +5,7 @@
 const ExifReader = require('exifreader');
 const exifErrors = ExifReader.errors;
 
-const {program} = require('commander');
+const { program } = require('commander');
 
 program
     .version(require('./package.json').version)
@@ -21,7 +21,7 @@ let haserror = false;
 
 files.forEach(function(filePath) {
     console.log('Checking: ' + filePath);
-    ExifReader.load(filePath, {expanded: true}).then(function(tags) {
+    ExifReader.load(filePath, { expanded: true }).then(function(tags) {
         if (tags.exif && Object.keys(tags.exif).length !== 0) {
             console.log('ERROR: Exif data found for: ' + filePath);
             hasexif = true;

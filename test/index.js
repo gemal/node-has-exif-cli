@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const expect = require('chai').expect;
 
 describe('index.js', function() {
-    // eslint-disable-next-line no-invalid-this
+
     this.timeout(8000);
 
     it('single jpeg with no exif', function(done) {
