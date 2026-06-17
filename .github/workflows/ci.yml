@@ -3,8 +3,10 @@ name: CI
 on:
   push:
     branches: ['**']
-  pull_request:
-    branches: ['**']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions: {}
 
@@ -22,6 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         # https://github.com/actions/checkout/releases
+        with:
+          persist-credentials: false
 
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
@@ -36,14 +40,14 @@ jobs:
           node-version: "lts/*"
           cache: npm
 
+      - name: Install safe-chain
+        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
+
       # this must fail if safe-chain is working
       - name: Test safe-chain
         run: |
           npm safe-chain-verify
           ! npm install safe-chain-test
-
-      - name: Install safe-chain
-        run: curl -fsSL https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
 
       - name: Install dependencies
         run: npm ci
@@ -53,9 +57,6 @@ jobs:
 
       - name: List packages
         run: npm ls
-
-      - name: Security test (safe-chain)
-        run: npx safe-chain
 
       - name: Security test (Snyk)
         run: ./node_modules/.bin/snyk test
