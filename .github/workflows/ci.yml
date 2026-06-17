@@ -15,6 +15,7 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    environment: Development
 
     steps:
       - name: Harden Runner
