@@ -10,7 +10,7 @@
     "scripts": {
         "test": "mocha"
     },
-    "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
+    "author": "Henrik Gemal <henrik@gemal.dk> (https://gemal.dk/)",
     "license": "MIT",
     "bin": {
         "has-exif-cli": "index.js"
