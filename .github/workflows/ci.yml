@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit packages
+        run: npm audit
+
+      - name: List packages
+        run: npm ls
+
+      - name: Security test (Snyk)
+        run: ./node_modules/.bin/snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Check line endings
+        run: find ./ -path ./node_modules -prune -o -name '*.css' -o -name '*.json' -o -name '*.md' -o -name '*.js' -o -name '*.yml' | xargs ./node_modules/.bin/lintspaces --endofline 'lf' --newline --trailingspaces --verbose
+
+      - name: Lint
+        run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+
+      - name: Check package lock
+        run: ./node_modules/.bin/check-package-lock
+
+      - name: Run tests with coverage
+        run: ./node_modules/.bin/nyc npm test
+
+      - name: Upload coverage to Codecov
+        run: |
+          ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
+          ./node_modules/.bin/codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
