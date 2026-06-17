@@ -38,10 +38,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Dependency Review
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
-        # https://github.com/actions/dependency-review-action/releases
-
       - name: Run CVE Lite CLI
         uses: OWASP/cve-lite-cli@b4a69139a2f62ec3a9a85782c146ff702055d7f2 # v1.23.1
         # https://github.com/OWASP/cve-lite-cli/releases
