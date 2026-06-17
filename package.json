@@ -39,7 +39,6 @@
         "eslint": "^10.5.0",
         "eslint-config-google": "^0.14.0",
         "expect": "^30.4.1",
-        "lintspaces-cli": "^1.0.0",
         "mocha": "^11.7.6",
         "nyc": "^18.0.0"
     }
