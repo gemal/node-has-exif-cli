@@ -9,7 +9,7 @@ const { program } = require('commander');
 
 program
     .version(require('./package.json').version)
-    .usage('<file ...> [options]')
+    .argument('<file...>', 'image files to check')
     .parse(process.argv);
 
 const files = program.args;
