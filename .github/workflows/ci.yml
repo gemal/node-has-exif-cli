@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        # https://github.com/step-security/harden-runner/releases
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        # https://github.com/actions/checkout/releases
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
+        # https://github.com/zizmorcore/zizmor-action/releases
+        with:
+          persona: pedantic
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        # https://github.com/actions/setup-node/releases
+        with:
+          node-version: "lts/*"
+          cache: npm
+
+      - name: Install safe-chain
+        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
+
+      # this must fail if safe-chain is working
+      - name: Test safe-chain
+        run: |
+          npm safe-chain-verify
+          ! npm install safe-chain-test
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
+        # https://github.com/snyk/actions/releases
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Check line endings
+        run: find ./ -path ./node_modules -prune -o -name '*.css' -o -name '*.json' -o -name '*.md' -o -name '*.js' -o -name '*.yml' | xargs ./node_modules/.bin/lintspaces --endofline 'lf' --newline --trailingspaces --verbose
+
+      - name: Lint
+        run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+
+      - name: Check package lock
+        run: ./node_modules/.bin/check-package-lock
+
+      - name: Run tests with coverage
+        run: ./node_modules/.bin/nyc npm test
+
+      - name: Generate coverage report
+        run: ./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+        # https://github.com/codecov/codecov-action/releases
+        with:
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
