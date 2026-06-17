@@ -65,6 +65,7 @@ jobs:
       # format to the repository Actions tab.
       - name: "Upload artifact"
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        # https://github.com/actions/upload-artifact/releases
         with:
           name: SARIF file
           path: results.sarif
@@ -73,6 +74,7 @@ jobs:
       # Upload the results to GitHub's code scanning dashboard (optional).
       # Commenting out will disable upload of results to your repo's Code Scanning dashboard
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+        # https://github.com/github/codeql-action/releases
         with:
           sarif_file: results.sarif
