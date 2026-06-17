@@ -64,7 +64,12 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Check line endings
-        run: find ./ -path ./node_modules -prune -o -name '*.css' -o -name '*.json' -o -name '*.md' -o -name '*.js' -o -name '*.yml' | xargs ./node_modules/.bin/lintspaces --endofline 'lf' --newline --trailingspaces --verbose
+        uses: fernandrone/linelint@7907a5dca0c28ea7dd05c6d8d8cacded713aca11 # 0.0.6
+        # https://github.com/fernandrone/linelint/releases
+
+      - name: Check EOL
+        uses: AODocs/check-eol@88fd9052e8ea211254a4de371011026603a329dc # v1.1
+        # https://github.com/AODocs/check-eol/releases
 
       - name: Lint
         run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
