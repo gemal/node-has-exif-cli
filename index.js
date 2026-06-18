@@ -14,14 +14,14 @@ program
 
 const files = program.args;
 
-console.info('Number of files to check: ' + files.length);
+console.log('Number of files to check: ' + files.length);
 
 let hasexif = false;
 let haserror = false;
 
-files.forEach(function(filePath) {
+Promise.all(files.map(function(filePath) {
     console.log('Checking: ' + filePath);
-    ExifReader.load(filePath, { expanded: true }).then(function(tags) {
+    return ExifReader.load(filePath, { expanded: true }).then(function(tags) {
         if (tags.exif && Object.keys(tags.exif).length !== 0) {
             console.log('ERROR: Exif data found for: ' + filePath);
             hasexif = true;
@@ -32,9 +32,7 @@ files.forEach(function(filePath) {
             haserror = true;
         }
     });
-});
-
-process.on('exit', function() {
+})).then(function() {
     if (hasexif || haserror) {
         process.exit(1);
     }
