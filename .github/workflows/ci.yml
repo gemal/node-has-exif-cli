@@ -7,15 +7,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  security-events: write
+permissions: {}
 
 jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
     environment: Development
+    permissions:
+      contents: read
+      security-events: write # to report vulnerabilities
 
     steps:
       - name: Harden Runner
@@ -78,7 +79,7 @@ jobs:
         # https://github.com/AODocs/check-eol/releases
 
       - name: Lint
-        run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+        run: npm run eslint
 
       - name: Check package lock
         run: ./node_modules/.bin/check-package-lock

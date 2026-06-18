@@ -10,8 +10,12 @@ on:
   push:
     branches: [ "main" ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # Declare default permissions as read only.
-permissions: read-all
+permissions: {}
 
 jobs:
   analysis:
