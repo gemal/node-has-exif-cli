@@ -8,7 +8,8 @@
         "url": "git://github.com/gemal/node-has-exif-cli.git"
     },
     "scripts": {
-        "test": "mocha"
+        "test": "mocha",
+        "eslint": "eslint *.js test/*.js"
     },
     "author": "Henrik Gemal <henrik@gemal.dk> (https://gemal.dk/)",
     "license": "MIT",
