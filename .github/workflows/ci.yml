@@ -40,7 +40,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@b4a69139a2f62ec3a9a85782c146ff702055d7f2 # v1.23.1
+        uses: OWASP/cve-lite-cli@97546a6e88f381bc77233dda58c5fdef375c312d # v1.24.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
