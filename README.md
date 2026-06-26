@@ -23,4 +23,3 @@ To make sure your checked in jpg, webp and other image files dont have EXIF data
 [![StyleCI](https://github.styleci.io/repos/62882041/shield?branch=main)](https://github.styleci.io/repos/62882041?branch=main)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/gemal/node-has-exif-cli/badge.svg)](https://snyk.io/test/github/gemal/node-has-exif-cli)
-
