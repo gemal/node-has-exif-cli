@@ -1,6 +1,6 @@
 {
     "name": "has-exif-cli",
-    "version": "1.10.2",
+    "version": "1.10.3",
     "description": "Checks if an image file has EXIF data. Available as CLI. Can be used in CI automation. Supports both JPG and WEBP image format",
     "main": "index.js",
     "repository": {
