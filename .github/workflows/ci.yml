@@ -85,7 +85,7 @@ jobs:
         run: ./node_modules/.bin/check-package-lock
 
       - name: Run tests with coverage
-        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=test-results.xml
+        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=coverage/junit.xml
 
       - name: Generate coverage report
         run: ./node_modules/.bin/c8 report --reporter=lcov
@@ -96,5 +96,15 @@ jobs:
         with:
           files: coverage/lcov.info
           fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Test results to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        # https://github.com/codecov/codecov-action/releases
+        with:
+          files: coverage/junit.xml
+          fail_ci_if_error: true
+          report_type: test_results
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
