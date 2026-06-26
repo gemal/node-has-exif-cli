@@ -28,10 +28,13 @@ jobs:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         # https://github.com/actions/checkout/releases
         with:
           persist-credentials: false
+
+      - name: Install and verify safe-chain
+        uses: ./.github/actions/safe-chain
 
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
@@ -68,7 +71,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         # https://github.com/actions/checkout/releases
         with:
           # persist-credentials needed to push the version bump commit back
@@ -96,7 +99,7 @@ jobs:
         run: |
           npm version patch -m "chore: release %s [skip ci]"
           VERSION=$(node -p "require('./package.json').version")
-          echo "version=v${VERSION}" >> $GITHUB_OUTPUT
+          echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Push version bump
         run: git push --follow-tags

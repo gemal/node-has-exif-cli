@@ -26,7 +26,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         # https://github.com/actions/checkout/releases
         with:
           persist-credentials: false
@@ -39,8 +39,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run actionlint
+        uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
+        # https://hub.docker.com/r/rhysd/actionlint/tags
+        with:
+          args: -color -verbose
+
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@b4a69139a2f62ec3a9a85782c146ff702055d7f2 # v1.23.1
+        uses: OWASP/cve-lite-cli@2eed959b8641042472d2810444393b88d5454e62 # v1.25.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
@@ -52,17 +58,11 @@ jobs:
           node-version: "lts/*"
           cache: npm
 
-      - name: Install safe-chain
-        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
-
-      # this must fail if safe-chain is working
-      - name: Test safe-chain
-        run: |
-          npm safe-chain-verify
-          ! npm install safe-chain-test
+      - name: Install and verify safe-chain
+        uses: ./.github/actions/safe-chain
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
@@ -85,7 +85,7 @@ jobs:
         run: ./node_modules/.bin/check-package-lock
 
       - name: Run tests with coverage
-        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha
+        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=test-results.xml
 
       - name: Generate coverage report
         run: ./node_modules/.bin/c8 report --reporter=lcov
