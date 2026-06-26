@@ -16,12 +16,10 @@ To make sure your checked in jpg, webp and other image files dont have EXIF data
 
 ## Badges
 
-[![CircleCI](https://circleci.com/gh/gemal/node-has-exif-cli.svg?style=svg)](https://circleci.com/gh/gemal/node-has-exif-cli)
+[![Release](https://github.com/gemal/node-has-exif-cli/actions/workflows/release.yml/badge.svg)](https://github.com/gemal/node-has-exif-cli/actions/workflows/release.yml)
 
-[![codecov](https://codecov.io/gh/gemal/node-has-exif-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/gemal/node-has-exif-cli)
+[![codecov](https://codecov.io/gh/gemal/node-has-exif-cli/graph/badge.svg?token=9F3FDBSVHU)](https://codecov.io/gh/gemal/node-has-exif-cli)
 
-[![StyleCI](https://github.styleci.io/repos/62882041/shield?branch=master)](https://github.styleci.io/repos/62882041)
+[![StyleCI](https://github.styleci.io/repos/62882041/shield?branch=main)](https://github.styleci.io/repos/62882041?branch=main)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/gemal/node-has-exif-cli/badge.svg)](https://snyk.io/test/github/gemal/node-has-exif-cli)
-
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/gemal/node-has-exif-cli.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/gemal/node-has-exif-cli/alerts/)
