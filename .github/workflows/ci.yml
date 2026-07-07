@@ -26,6 +26,7 @@ jobs:
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         # https://github.com/step-security/harden-runner/releases
         with:
+          disable-sudo: true
           # if a step starts failing with a blocked connection, the harden-runner
           # step summary / annotations show the endpoint to add here
           egress-policy: block
@@ -51,13 +52,18 @@ jobs:
             api.codecov.io:443
             ingest.codecov.io:443
             storage.googleapis.com:443
-            keybase.io:443
 
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         # https://github.com/actions/checkout/releases
         with:
           persist-credentials: false
+
+      - name: Dependency review
+        # blocks PRs that introduce dependencies with known vulnerabilities
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        # https://github.com/actions/dependency-review-action/releases
 
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@192e21d79ab29983730a13d1382995c2307fbcaa # v0.5.7

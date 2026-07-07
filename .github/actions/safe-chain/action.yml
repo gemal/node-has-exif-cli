@@ -7,12 +7,13 @@ runs:
     - name: Install safe-chain
       shell: bash
       run: |
-        SCRIPT="$(mktemp -d)/install-safe-chain.sh"
+        WORKDIR="$(mktemp -d)"
+        SCRIPT="$WORKDIR/install-safe-chain.sh"
         curl --fail --silent --show-error --retry 3 --location --output "$SCRIPT" \
           "https://github.com/AikidoSec/safe-chain/releases/download/${SAFECHAIN_VERSION}/install-safe-chain.sh"
         echo "${SAFECHAIN_SHA256}  ${SCRIPT}" | sha256sum --check --quiet
         sh "$SCRIPT" --ci
-        rm -f "$SCRIPT"
+        rm --recursive --force "$WORKDIR"
       env:
         SAFECHAIN_VERSION: 1.5.12
         SAFECHAIN_SHA256: e40995d546160bf18788dbfc6e9a4a765152abeca92014adf85102cf6b13d890
@@ -23,4 +24,5 @@ runs:
       # this must fail if safe-chain is working
       run: | # zizmor: ignore[adhoc-packages]
         npm safe-chain-verify
-        ! npm install safe-chain-test
+        # --no-save so a (failing) safe-chain miss cannot mutate package.json
+        ! npm install --no-save safe-chain-test

@@ -25,6 +25,7 @@ jobs:
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         # https://github.com/step-security/harden-runner/releases
         with:
+          disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
@@ -80,6 +81,7 @@ jobs:
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         # https://github.com/step-security/harden-runner/releases
         with:
+          disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
@@ -132,11 +134,13 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Push version bump
-        run: git push --follow-tags
-
+      # publish before pushing: a failed publish then leaves nothing on
+      # main/npm, so the run can simply be retried
       - name: Publish to npm
         run: npm publish --provenance --access public
+
+      - name: Push version bump
+        run: git push --follow-tags
 
       - name: Create GitHub release
         # zizmor: ignore[template-injection] VERSION is passed as env var, not interpolated into shell
