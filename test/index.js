@@ -91,9 +91,9 @@ describe('index.js', function() {
     });
 
     it('control characters in file names are sanitized in output', async function() {
-        const { code, out } = await run(['test/[2Kevil.jpg']);
+        const { code, out } = await run(['test/\u001b[2Kevil\r.jpg']);
         expect(code).to.equal(2);
-        expect(out).to.not.include('');
-        expect(out).to.match(/Checking: test/?[2Kevil?.jpg/);
+        expect(out).to.not.include('\u001b');
+        expect(out).to.match(/Checking: test\/\?\[2Kevil\?\.jpg/);
     });
 });
