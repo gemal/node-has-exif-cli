@@ -2,38 +2,17 @@
 
 ## Supported Versions
 
-Only the latest published version of `has-exif-cli` is supported.
-Releases are automated and frequent, so please update to the newest
-version before reporting an issue.
-
-| Version | Supported |
-| ------- | --------- |
-| latest  | yes       |
-| older   | no        |
+Only the latest published version is supported with security updates.
 
 ## Reporting a Vulnerability
 
-Please do not open a public issue for security problems.
+Please do not report security vulnerabilities through public GitHub issues.
 
-Report vulnerabilities privately via GitHub's private vulnerability
-reporting: <https://github.com/gemal/node-has-exif-cli/security/advisories/new>
+Instead, use one of these channels:
 
-Alternatively, email [henrik@gemal.dk](mailto:henrik@gemal.dk).
+- **GitHub private vulnerability reporting** (preferred):
+    [Report a vulnerability](https://github.com/gemal/node-has-exif-cli/security/advisories/new)
+- **Email**: henrik@gemal.dk
 
-Please include:
-
-- a description of the issue and its impact
-- steps to reproduce (a proof-of-concept image file is welcome)
-- the version of `has-exif-cli` and Node.js you used
-
-You will normally receive a response within 7 days. Once the issue is
-confirmed, a fix is developed privately and published as a new release,
-after which the advisory is disclosed.
-
-## Scope
-
-`has-exif-cli` is a command line tool that parses image files. The most
-security-relevant area is the handling of untrusted or malformed image
-input passed to the CLI. Vulnerabilities in dependencies should be
-reported upstream, but reports about how they affect this tool are
-still appreciated.
+Please include a description of the issue, steps to reproduce, and the
+affected version. You can expect an initial response within a week.
