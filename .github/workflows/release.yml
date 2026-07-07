@@ -134,8 +134,6 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
 
-      # publish before pushing: a failed publish then leaves nothing on
-      # main/npm, so the run can simply be retried
       - name: Publish to npm
         run: npm publish --provenance --access public
 

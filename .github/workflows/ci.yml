@@ -27,8 +27,6 @@ jobs:
         # https://github.com/step-security/harden-runner/releases
         with:
           disable-sudo: true
-          # if a step starts failing with a blocked connection, the harden-runner
-          # step summary / annotations show the endpoint to add here
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
@@ -60,7 +58,6 @@ jobs:
           persist-credentials: false
 
       - name: Dependency review
-        # blocks PRs that introduce dependencies with known vulnerabilities
         if: github.event_name == 'pull_request'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         # https://github.com/actions/dependency-review-action/releases

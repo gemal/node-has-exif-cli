@@ -1,7 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
+'use strict';
 
-export default [
+const js = require('@eslint/js');
+const globals = require('globals');
+
+module.exports = [
     js.configs.recommended,
     {
         languageOptions: {
@@ -36,4 +38,4 @@ export default [
             'indent': ['error', 4],
         },
     },
-]
+];
