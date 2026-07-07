@@ -90,10 +90,22 @@ describe('index.js', function() {
         expect(out).to.match(/Number of files to check: 1/);
     });
 
+    it('iptc only found when --iptc is given', async function() {
+        const { code, out } = await run(['--iptc', 'test/iptc.jpg']);
+        expect(code).to.equal(1);
+        expect(out).to.match(/ERROR: IPTC data found for: test\/iptc\.jpg/);
+    });
+
+    it('iptc ignored without the flag', async function() {
+        const { code, out } = await run(['test/iptc.jpg']);
+        expect(code).to.equal(0);
+        expect(out).to.match(/Number of files to check: 1/);
+    });
+
     it('control characters in file names are sanitized in output', async function() {
-        const { code, out } = await run(['test/\u001b[2Kevil\r.jpg']);
+        const { code, out } = await run(['test/\u001b[2Kevil\r\u007f.jpg']);
         expect(code).to.equal(2);
         expect(out).to.not.include('\u001b');
-        expect(out).to.match(/Checking: test\/\?\[2Kevil\?\.jpg/);
+        expect(out).to.match(/Checking: test\/\?\[2Kevil\?\?\.jpg/);
     });
 });
