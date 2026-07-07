@@ -49,13 +49,13 @@ describe('index.js', function() {
 
     it('single svg which cant be read', async function() {
         const { code, out } = await run(['test/wrong.svg']);
-        expect(code).to.equal(1);
+        expect(code).to.equal(2);
         expect(out).to.match(/Invalid image format/);
     });
 
     it('single non existing file', async function() {
         const { code, out } = await run(['test/404.jpg']);
-        expect(code).to.equal(1);
+        expect(code).to.equal(2);
         expect(out).to.match(/ENOENT: no such file or directory/);
     });
 
@@ -76,5 +76,24 @@ describe('index.js', function() {
         const { code, out } = await run(['test/exifempty.jpg']);
         expect(code).to.equal(0);
         expect(out).to.match(/Number of files to check: 1/);
+    });
+
+    it('xmp only found when --xmp is given', async function() {
+        const { code, out } = await run(['--xmp', 'test/exifempty.jpg']);
+        expect(code).to.equal(1);
+        expect(out).to.match(/ERROR: XMP data found for: test\/exifempty\.jpg/);
+    });
+
+    it('iptc flag passes file without iptc', async function() {
+        const { code, out } = await run(['--iptc', 'test/none.jpg']);
+        expect(code).to.equal(0);
+        expect(out).to.match(/Number of files to check: 1/);
+    });
+
+    it('control characters in file names are sanitized in output', async function() {
+        const { code, out } = await run(['test/[2Kevil.jpg']);
+        expect(code).to.equal(2);
+        expect(out).to.not.include('');
+        expect(out).to.match(/Checking: test/?[2Kevil?.jpg/);
     });
 });

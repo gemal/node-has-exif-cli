@@ -2,6 +2,9 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,7 +26,32 @@ jobs:
         uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         # https://github.com/step-security/harden-runner/releases
         with:
-          egress-policy: audit
+          # if a step starts failing with a blocked connection, the harden-runner
+          # step summary / annotations show the endpoint to add here
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            codeload.github.com:443
+            ghcr.io:443
+            pkg-containers.githubusercontent.com:443
+            objects.githubusercontent.com:443
+            raw.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
+            *.actions.githubusercontent.com:443
+            *.blob.core.windows.net:443
+            nodejs.org:443
+            registry.npmjs.org:443
+            malware-list.aikido.dev:443
+            api.snyk.io:443
+            downloads.snyk.io:443
+            api.osv.dev:443
+            services.nvd.nist.gov:443
+            cli.codecov.io:443
+            api.codecov.io:443
+            ingest.codecov.io:443
+            storage.googleapis.com:443
+            keybase.io:443
 
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -38,6 +66,13 @@ jobs:
           persona: pedantic
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up editorconfig-checker
+        uses: editorconfig-checker/action-editorconfig-checker@840e866d93b8e032123c23bac69dece044d4d84c # v2.2.0
+        # https://github.com/editorconfig-checker/action-editorconfig-checker/releases
+
+      - name: Run editorconfig-checker
+        run: editorconfig-checker
 
       - name: Run actionlint
         uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
@@ -65,18 +100,12 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Run Snyk to check for vulnerabilities
+        # fork PRs have no access to secrets, so skip the steps that need them
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
         # https://github.com/snyk/actions/releases
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Check line endings
-        uses: fernandrone/linelint@7907a5dca0c28ea7dd05c6d8d8cacded713aca11 # 0.0.6
-        # https://github.com/fernandrone/linelint/releases
-
-      - name: Check EOL
-        uses: AODocs/check-eol@88fd9052e8ea211254a4de371011026603a329dc # v1.1
-        # https://github.com/AODocs/check-eol/releases
 
       - name: Lint
         run: npm run eslint
@@ -91,6 +120,7 @@ jobs:
         run: ./node_modules/.bin/c8 report --reporter=lcov
 
       - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         # https://github.com/codecov/codecov-action/releases
         with:
@@ -100,6 +130,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Test results to Codecov
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         # https://github.com/codecov/codecov-action/releases
         with:
