@@ -21,6 +21,6 @@ runs:
     - name: Test safe-chain
       shell: bash
       # this must fail if safe-chain is working
-      run: |
+      run: | # zizmor: ignore[adhoc-packages]
         npm safe-chain-verify
         ! npm install --no-save safe-chain-test
