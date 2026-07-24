@@ -2,6 +2,9 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,19 +23,19 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
         # https://github.com/step-security/harden-runner/releases
         with:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         # https://github.com/actions/checkout/releases
         with:
           persist-credentials: false
 
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@192e21d79ab29983730a13d1382995c2307fbcaa # v0.5.7
+        uses: zizmorcore/zizmor-action@6fc4b006235f201fdab3722e17240ab420d580e5 # v0.6.1
         # https://github.com/zizmorcore/zizmor-action/releases
         with:
           persona: pedantic
@@ -46,7 +49,7 @@ jobs:
           args: -color -verbose
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@2eed959b8641042472d2810444393b88d5454e62 # v1.25.0
+        uses: OWASP/cve-lite-cli@631eac57629e8d37a6821da3269467fd9224c905 # v1.27.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
@@ -65,6 +68,8 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Run Snyk to check for vulnerabilities
+        # fork PRs have no access to secrets, so skip the steps that need them
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
         # https://github.com/snyk/actions/releases
         env:
@@ -91,6 +96,7 @@ jobs:
         run: ./node_modules/.bin/c8 report --reporter=lcov
 
       - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         # https://github.com/codecov/codecov-action/releases
         with:
@@ -100,6 +106,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Test results to Codecov
+        if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         # https://github.com/codecov/codecov-action/releases
         with:
