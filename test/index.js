@@ -1,10 +1,6 @@
-#!/usr/bin/env node
-
-'use strict';
-
-const path = require('path');
-const spawn = require('child_process').spawn;
-const expect = require('chai').expect;
+import path from 'node:path';
+import { spawn } from 'node:child_process';
+import { expect } from 'chai';
 
 describe('index.js', function() {
 
@@ -13,8 +9,8 @@ describe('index.js', function() {
     function run(args) {
         return new Promise(function(resolve) {
             let out = '';
-            const proc = spawn('node', [path.join(__dirname, '../index.js')].concat(args), {
-                cwd: path.join(__dirname, '../'),
+            const proc = spawn('node', [path.join(import.meta.dirname, '../index.js')].concat(args), {
+                cwd: path.join(import.meta.dirname, '../'),
             });
             proc.stdout.on('data', function(data) { out += data; });
             proc.stderr.on('data', function(data) { out += data; });

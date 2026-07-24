@@ -1,12 +1,12 @@
-import js from '@eslint/js'
-import globals from 'globals'
+import js from '@eslint/js';
+import globals from 'globals';
 
 export default [
     js.configs.recommended,
     {
         languageOptions: {
-            ecmaVersion: 2018,
-            sourceType: 'commonjs',
+            ecmaVersion: 'latest',
+            sourceType: 'module',
             globals: {
                 ...globals.node,
                 ...globals.es2017,
@@ -36,4 +36,4 @@ export default [
             'indent': ['error', 4],
         },
     },
-]
+];

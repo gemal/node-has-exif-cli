@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-'use strict';
+import fs from 'node:fs';
+import { program } from 'commander';
+import ExifReader from 'exifreader';
 
-const ExifReader = require('exifreader');
 const exifErrors = ExifReader.errors;
-
-const { program } = require('commander');
+const packageJson = JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url)));
 
 program
-    .version(require('./package.json').version)
+    .version(packageJson.version)
     .argument('<file...>', 'image files to check')
     .parse(process.argv);
 
