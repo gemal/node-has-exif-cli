@@ -32,6 +32,7 @@ jobs:
         uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
         # https://github.com/step-security/harden-runner/releases
         with:
+          disable-sudo: true
           egress-policy: audit
 
       - name: Checkout code

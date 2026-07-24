@@ -4,7 +4,6 @@
 .github/
 .linelint.yml
 .typo-ci.yml
-eslint.config.mjs
-renovate.json
+eslint.config.js
 package-lock.json
 test/
