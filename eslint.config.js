@@ -5,8 +5,8 @@ export default [
     js.configs.recommended,
     {
         languageOptions: {
-            ecmaVersion: 2018,
-            sourceType: 'commonjs',
+            ecmaVersion: 'latest',
+            sourceType: 'module',
             globals: {
                 ...globals.node,
                 ...globals.es2017,
