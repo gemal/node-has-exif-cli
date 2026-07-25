@@ -12,6 +12,13 @@ const packageJson = JSON.parse(fs.readFileSync(new URL('./package.json', import.
 // eslint-disable-next-line no-control-regex
 const sanitize = (text) => text.replace(/[\u0000-\u001f\u007f-\u009f]/g, '');
 
+// metadata sections (from ExifReader's expanded output) to flag when present
+const METADATA_TYPES = [
+    { section: 'exif', label: 'Exif' },
+    { section: 'xmp', label: 'XMP' },
+    { section: 'iptc', label: 'IPTC' },
+];
+
 program
     .version(packageJson.version)
     .argument('<file...>', 'image files to check')
@@ -21,15 +28,17 @@ const files = program.args;
 
 console.log('Number of files to check: ' + files.length);
 
-let hasexif = false;
+let hasmetadata = false;
 let haserror = false;
 
 Promise.all(files.map(function(filePath) {
     console.log(sanitize('Checking: ' + filePath));
     return ExifReader.load(filePath, { expanded: true }).then(function(tags) {
-        if (tags.exif && Object.keys(tags.exif).length !== 0) {
-            console.log(sanitize('ERROR: Exif data found for: ' + filePath));
-            hasexif = true;
+        for (const { section, label } of METADATA_TYPES) {
+            if (tags[section] && Object.keys(tags[section]).length !== 0) {
+                console.log(sanitize('ERROR: ' + label + ' data found for: ' + filePath));
+                hasmetadata = true;
+            }
         }
     }).catch(function(error) {
         if (error instanceof exifErrors.MetadataMissingError === false) {
@@ -38,7 +47,7 @@ Promise.all(files.map(function(filePath) {
         }
     });
 })).then(function() {
-    if (hasexif || haserror) {
+    if (hasmetadata || haserror) {
         process.exitCode = 1;
     }
 });

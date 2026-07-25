@@ -71,9 +71,16 @@ describe('index.js', function() {
         expect(out).to.match(/Number of files to check: 2/);
     });
 
-    it('single jpg with exif but empty', async function() {
+    it('single jpg with empty exif but xmp', async function() {
         const { code, out } = await run(['test/exifempty.jpg']);
-        expect(code).to.equal(0);
-        expect(out).to.match(/Number of files to check: 1/);
+        expect(code).to.equal(1);
+        expect(out).to.match(/XMP data found for: test\/exifempty\.jpg/);
+        expect(out).to.not.match(/Exif data found/);
+    });
+
+    it('single jpg with iptc', async function() {
+        const { code, out } = await run(['test/iptc.jpg']);
+        expect(code).to.equal(1);
+        expect(out).to.match(/IPTC data found for: test\/iptc\.jpg/);
     });
 });
