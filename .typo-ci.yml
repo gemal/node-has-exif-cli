@@ -3,3 +3,5 @@ dictionaries:
 
 excluded_words:
   - endofline
+  - xmp
+  - iptc

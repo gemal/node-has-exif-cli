@@ -1,7 +1,7 @@
 {
     "name": "has-exif-cli",
     "version": "1.10.12",
-    "description": "Checks if an image file has EXIF data. Available as CLI. Can be used in CI automation. Supports both JPG and WEBP image format",
+    "description": "Checks if an image file has EXIF, XMP or IPTC metadata. Available as CLI. Can be used in CI automation. Supports both JPG and WEBP image format",
     "main": "index.js",
     "files": [
         "index.js"
@@ -28,6 +28,9 @@
     },
     "keywords": [
         "exif",
+        "xmp",
+        "iptc",
+        "metadata",
         "cli",
         "check",
         "automate",
