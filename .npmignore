@@ -1,9 +1,0 @@
-.editorconfig
-.gitattributes
-.gitignore
-.github/
-.linelint.yml
-.typo-ci.yml
-eslint.config.js
-package-lock.json
-test/
