@@ -1,0 +1,42 @@
+name: Semgrep
+
+on:
+  workflow_dispatch: {}
+  pull_request: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/semgrep.yml
+  schedule:
+    # random HH:MM to avoid a load spike on GitHub Actions at 00:00
+    - cron: '12 15 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      contents: read
+    if: github.actor != 'dependabot[bot]'
+    container:
+      # https://hub.docker.com/r/semgrep/semgrep/tags
+      image: semgrep/semgrep@sha256:bdf7013b2c3634a487671158da77c554f531742326b543a9464d2adf6c433ac8 # v1.171.0
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        # https://github.com/actions/checkout/releases
+        with:
+          persist-credentials: false
+
+      - name: Run semgrep ci
+        run: semgrep ci --no-suppress-errors
