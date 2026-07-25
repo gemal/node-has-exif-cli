@@ -16,7 +16,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    environment: Development
+    environment: development
     # Skip if this push is the automated version bump commit
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
