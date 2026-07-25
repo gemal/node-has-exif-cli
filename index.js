@@ -34,6 +34,6 @@ Promise.all(files.map(function(filePath) {
     });
 })).then(function() {
     if (hasexif || haserror) {
-        process.exit(1);
+        process.exitCode = 1;
     }
 });

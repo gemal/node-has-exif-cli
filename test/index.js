@@ -1,6 +1,9 @@
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { expect } from 'chai';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('index.js', function() {
 
@@ -9,8 +12,8 @@ describe('index.js', function() {
     function run(args) {
         return new Promise(function(resolve) {
             let out = '';
-            const proc = spawn('node', [path.join(import.meta.dirname, '../index.js')].concat(args), {
-                cwd: path.join(import.meta.dirname, '../'),
+            const proc = spawn('node', [path.join(__dirname, '../index.js')].concat(args), {
+                cwd: path.join(__dirname, '../'),
             });
             proc.stdout.on('data', function(data) { out += data; });
             proc.stderr.on('data', function(data) { out += data; });
