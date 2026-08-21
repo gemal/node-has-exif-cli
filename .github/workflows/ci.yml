@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
         # https://github.com/step-security/harden-runner/releases
         with:
           disable-sudo: true
@@ -91,7 +91,7 @@ jobs:
           args: -color -verbose
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@32c21bb9c73050bc177b563633b3fe684825517c # v1.28.0
+        uses: OWASP/cve-lite-cli@fd481fff75f492f94de36dcaf020674af0eca9ef # v1.29.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
