@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         # https://github.com/step-security/harden-runner/releases
         with:
           disable-sudo: true
@@ -70,7 +70,7 @@ jobs:
           fail-on-severity: high
 
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        uses: zizmorcore/zizmor-action@70fb788f84895a7701f5643d103d587e460b5c99 # v0.6.3
         # https://github.com/zizmorcore/zizmor-action/releases
         with:
           persona: pedantic
@@ -91,7 +91,7 @@ jobs:
           args: -color -verbose
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@32c21bb9c73050bc177b563633b3fe684825517c # v1.28.0
+        uses: OWASP/cve-lite-cli@a9072cb521f68bc0a693b4be85e36e226a49abf0 # v1.31.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
