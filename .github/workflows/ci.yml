@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         # https://github.com/step-security/harden-runner/releases
         with:
           disable-sudo: true
@@ -70,7 +70,7 @@ jobs:
           fail-on-severity: high
 
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
         # https://github.com/zizmorcore/zizmor-action/releases
         with:
           persona: pedantic
@@ -91,7 +91,7 @@ jobs:
           args: -color -verbose
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@32c21bb9c73050bc177b563633b3fe684825517c # v1.28.0
+        uses: OWASP/cve-lite-cli@e08b5571acdc62599d1a28c1cace973444f2eb52 # v1.34.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
@@ -131,7 +131,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        uses: codecov/codecov-action@0b35c9ecc4f0529d0eb674914510c22f85b196b4 # v7.1.0
         # https://github.com/codecov/codecov-action/releases
         with:
           files: coverage/lcov.info
@@ -141,7 +141,7 @@ jobs:
 
       - name: Upload Test results to Codecov
         if: github.event_name == 'push' || !github.event.pull_request.head.repo.fork
-        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        uses: codecov/codecov-action@0b35c9ecc4f0529d0eb674914510c22f85b196b4 # v7.1.0
         # https://github.com/codecov/codecov-action/releases
         with:
           files: coverage/junit.xml
